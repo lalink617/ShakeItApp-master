@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f57773</color>
+    <color name="colorPrimaryDark">#dd625c</color>
+    <color name="colorAccent">#4dcee1</color>
+
+    // Login
+    <color name="backgroundColorSecondary">#353d54</color>
+    <color name="backgroundColorPrimary">#444a63</color>
+    <color name="textColorPrimary">#f9f9f9</color>
+    <color name="textColorSecondary">#818595</color>
+
+
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>

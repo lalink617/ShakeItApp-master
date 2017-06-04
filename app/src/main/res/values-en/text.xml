@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="singup">Sign up</string>
+    <string name="or">Or</string>
+    <string name="guest_session">Guest session</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="create_account">Create account</string>
+    <string name="shake_it">Shake it!</string>
+    <string name="bad_login">Wrong username or password</string>
+</resources>

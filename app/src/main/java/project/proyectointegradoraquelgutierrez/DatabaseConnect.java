@@ -1,8 +1,11 @@
 package project.proyectointegradoraquelgutierrez;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.widget.Toast;
 
 /**
  * Created by Raquel on 12/05/2017.
@@ -10,14 +13,12 @@ import android.net.NetworkInfo;
 
 public class DatabaseConnect {
 
-    /*public  DatabaseConnect() {
-        ConnectivityManager connMgr = (ConnectivityManager);
-        getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // Operaciones http
-        } else {
-            // Mostrar errores
-        }
-    }*/
+    public DatabaseConnect() {
+
+    }
+
+
+
+
+
 }

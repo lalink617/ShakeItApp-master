@@ -13,9 +13,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/shake_it"
+                android:textSize="30sp"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/ivCircle"
-                android:layout_marginBottom="@dimen/general"
+                android:layout_marginBottom="@dimen/margin_general"
                 android:textColor="@color/black_overlay"
                 android:textStyle="bold"
                 />
@@ -36,7 +37,7 @@
                 android:layout_centerInParent="true"
                 />
             <ImageButton
-                android:layout_marginTop="@dimen/general"
+                android:layout_marginTop="@dimen/margin_general"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/btCancel"
                 android:layout_below="@id/ivCircle"

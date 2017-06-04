@@ -7,7 +7,10 @@
     <string name="or">Or</string>
     <string name="guest_session">Guest session</string>
     <string name="confirm_password">Confirm password</string>
+    <string name="email">Email</string>
     <string name="create_account">Create account</string>
     <string name="shake_it">Shake it!</string>
     <string name="bad_login">Wrong username or password</string>
+    <string name="no_conex">You need Internet connection</string>
+    <string name="empty_login">Username or Password is empty!</string>
 </resources>

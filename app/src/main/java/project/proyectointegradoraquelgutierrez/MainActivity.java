@@ -1,6 +1,9 @@
 package project.proyectointegradoraquelgutierrez;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -46,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        user = (EditText) findViewById(R.id.etLoginUsername);
-        password = (EditText) findViewById(R.id.etLoginPassword);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -56,9 +58,34 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentLogin(), getResources().getString(R.string.login).toUpperCase());
         adapter.addFragment(new FragmentSingup(), getResources().getString(R.string.singup).toUpperCase());
         viewPager.setAdapter(adapter);
+
     }
 
     public void btGuestSessionOnClick(View view) {
+        if (checkConnection())
+            startActivity(new Intent(MainActivity.this, ShakeActivity.class));
+        else Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
+    }
+
+    public boolean checkConnection() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService (Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public void btLoginOnClick(View view) {
+        user = (EditText) findViewById(R.id.etLoginUsername);
+        password = (EditText) findViewById(R.id.etLoginPassword);
+
+        if (user.getText() == null || user.getText().toString().equals("") || password.getText() == null || password.getText().toString().equals("")) {
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.empty_login), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!checkConnection()) {
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
+            return;
+        }
         new CallAPI() {
             @Override
             protected void onPostExecute(final String result) {
@@ -75,12 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }.execute(
-                Uri.parse("http://192.168.3.44/check_login.php")
-                .buildUpon()
-                .appendQueryParameter("user", user.getText().toString())
-                .appendQueryParameter("pass", password.getText().toString())
-                .build()
-                .toString()
+                Uri.parse("http://192.168.1.12/check_login.php")
+                        .buildUpon()
+                        .appendQueryParameter("user", user.getText().toString())
+                        .appendQueryParameter("pass", password.getText().toString())
+                        .build()
+                        .toString()
         );
     }
 

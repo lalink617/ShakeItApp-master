@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,11 +41,15 @@
                 android:layout_marginTop="@dimen/margin_general"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/btCancel"
+                android:onClick="btCancelOnclick"
                 android:layout_below="@id/ivCircle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_cancel"
+                app:srcCompat="@drawable/ic_close"
+                android:background="#00000000"
+                android:textColor="@color/textColorSecondary"
                 />
+
 
     </RelativeLayout>
 

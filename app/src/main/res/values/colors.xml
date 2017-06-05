@@ -9,7 +9,7 @@
     <color name="backgroundColorPrimary">#444a63</color>
     <color name="textColorPrimary">#f9f9f9</color>
     <color name="textColorSecondary">#818595</color>
-
+    <color name="textHint">#cacaca</color>
 
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>

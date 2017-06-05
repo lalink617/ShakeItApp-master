@@ -3,7 +3,7 @@
     <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Acceder</string>
-    <string name="singup">Registro</string>
+    <string name="singup">Registrar</string>
     <string name="or">O</string>
     <string name="guest_session">Sesión de invitado</string>
     <string name="confirm_password">Confirmar contraseña</string>
@@ -13,4 +13,8 @@
     <string name="bad_login">Usuario o contraseña incorrecta</string>
     <string name="no_conex">Necesitas estar conectado a Internet</string>
     <string name="empty_login">¡Usuario o Contraseña vacío!</string>
+    <string name="exit_confirm">¿Salir?</string>
+    <string name="exit_confirm_body">¿Estás seguro de que deseas salir?</string>
+    <string name="confirm">Sí</string>
+    <string name="cancel">Cancelar</string>
 </resources>

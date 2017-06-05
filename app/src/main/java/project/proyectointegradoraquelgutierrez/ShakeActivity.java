@@ -1,5 +1,6 @@
 package project.proyectointegradoraquelgutierrez;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -7,9 +8,12 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
+import android.support.v7.view.ContextThemeWrapper;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private static final short startR=226, startG=244, startB=199, endR=255, endG=78, endB=80;
     private long lastColorChangeTime = 0;
     private int maxSinceLastChange = 0;
+    Timer timer = new Timer();
 
     private static int weightedAverage(double t) {
         if(t > 1) t = 1;
@@ -44,18 +49,19 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         setContentView(R.layout.activity_shake);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        new Timer().schedule(new TimerTask() {
+
+        timer.schedule(new TimerTask() {
+    @Override
+    public void run() {
+        ShakeActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ShakeActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(evolution.size() < 10) evolution.add(valueCount == 0 ? 0 : average/valueCount);
-                        Intent i = new Intent(ShakeActivity.this, ScoreActivity.class);
-                        i.putIntegerArrayListExtra("scores", evolution);
-                        startActivity(i);
-                    }
-                });
+                if(evolution.size() < 10) evolution.add(valueCount == 0 ? 0 : average/valueCount);
+                Intent i = new Intent(ShakeActivity.this, ScoreActivity.class);
+                i.putIntegerArrayListExtra("scores", evolution);
+                startActivity(i);
+            }
+        });
             }
         }, 10000);
 
@@ -139,5 +145,25 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    public void btCancelOnclick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        builder.setMessage(R.string.exit_confirm_body);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                startActivity(new Intent(ShakeActivity.this, MainActivity.class));
+                timer.cancel();
+                timer.purge();
+                finish();
+            }
+        });
+        builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

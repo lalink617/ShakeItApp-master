@@ -13,4 +13,8 @@
     <string name="bad_login">Wrong username or password</string>
     <string name="no_conex">You need Internet connection</string>
     <string name="empty_login">Username or Password is empty!</string>
+    <string name="exit_confirm">Exit</string>
+    <string name="exit_confirm_body">Are you sure you want to exit?</string>
+    <string name="confirm">Yes</string>
+    <string name="cancel">Cancelar</string>
 </resources>

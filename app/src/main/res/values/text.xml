@@ -11,4 +11,8 @@
     <string name="email">Email</string>
     <string name="create_account">Crear cuenta</string>
     <string name="bad_login">Usuario o contraseña incorrecta</string>
+    <string name="exit_confirm">Exit</string>
+    <string name="exit_confirm_body">Are you sure you want to exit?</string>
+    <string name="confirm">Yes</string>
+    <string name="cancel">Cancel</string>
 </resources>

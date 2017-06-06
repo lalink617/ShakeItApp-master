@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }.execute(
-                Uri.parse("http://192.168.1.12/check_login.php")
+                Uri.parse("http://www.iesmurgi.org/raquel/check_login.php")
                         .buildUpon()
                         .appendQueryParameter("user", user.getText().toString())
                         .appendQueryParameter("pass", password.getText().toString())

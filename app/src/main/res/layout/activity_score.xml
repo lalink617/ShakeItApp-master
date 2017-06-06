@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="project.proyectointegradoraquelgutierrez.ScoreActivity">
 
-    <com.github.mikephil.charting.charts.LineChart
+    <com.github.mikephil.charting.charts.ScatterChart
         android:id="@+id/chart"
         android:layout_width="368dp"
         android:layout_height="495dp"

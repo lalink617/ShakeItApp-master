@@ -28,7 +28,7 @@
             android:noHistory="true"
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".ScoreActivity" />
-        <activity android:name=".ListScore"></activity>
+        <activity android:name=".Score.ScoreAdapter"></activity>
     </application>
 
 </manifest>

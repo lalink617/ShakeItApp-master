@@ -17,4 +17,7 @@
     <string name="exit_confirm_body">Are you sure you want to exit?</string>
     <string name="confirm">Yes</string>
     <string name="cancel">Cancelar</string>
+    <string name="score">Score</string>
+    <string name="register">You have successfully registered!</string>
+    <string name="username_take">Username already taken</string>
 </resources>

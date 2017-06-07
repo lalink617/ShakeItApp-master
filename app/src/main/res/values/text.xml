@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="shake_it">Shake it!</string>
-    <string name="username">Usuario</string>
-    <string name="password">Contraseña</string>
-    <string name="login">Acceder</string>
-    <string name="singup">Registro</string>
-    <string name="or">O</string>
-    <string name="guest_session">Sesión de invitado</string>
-    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="singup">Sign up</string>
+    <string name="or">Or</string>
+    <string name="guest_session">Guest session</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="email">Email</string>
-    <string name="create_account">Crear cuenta</string>
-    <string name="bad_login">Usuario o contraseña incorrecta</string>
+    <string name="create_account">Create account</string>
+    <string name="shake_it">Shake it!</string>
+    <string name="bad_login">Wrong username or password</string>
+    <string name="no_conex">You need Internet connection</string>
+    <string name="empty_login">Username or Password is empty!</string>
     <string name="exit_confirm">Exit</string>
     <string name="exit_confirm_body">Are you sure you want to exit?</string>
     <string name="confirm">Yes</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Cancelar</string>
+    <string name="score">Score</string>
+    <string name="register">You have successfully registered!</string>
+    <string name="username_take">Username already taken</string>
 </resources>

@@ -48,14 +48,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().hide();
 
-        try {
-            url = new URL("http://www.iesmurgi.org:85/raquel/check_login.php");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -75,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btGuestSessionOnClick(View view) {
-        if (checkConnection())
+        if (checkConnection()) {
+            Credentials.invitado = true;
             startActivity(new Intent(MainActivity.this, ShakeActivity.class));
+        }
+
         else Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
     }
 
@@ -107,9 +102,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(result.equals("ok")) {
-                            startActivity(new Intent(MainActivity.this, ShakeActivity.class));
                             Credentials.user = user.getText().toString().trim();
                             Credentials.password = password.getText().toString().trim();
+                            Credentials.invitado = false;
+                            Intent i = new Intent(MainActivity.this, ScoreActivity.class);
+                            i.putExtra("menu", true);
+                            startActivity(i);
                         } else
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.bad_login), Toast.LENGTH_LONG).show();
                     }
@@ -117,6 +115,48 @@ public class MainActivity extends AppCompatActivity {
             }
         }.execute(
                 Uri.parse("http://www.iesmurgi.org:85/raquel2017/check_login.php")
+                        .buildUpon()
+                        .appendQueryParameter("user", user.getText().toString().trim())
+                        .appendQueryParameter("pass", password.getText().toString().trim())
+                        .build()
+                        .toString()
+        );
+    }
+
+    public void btSingUpOnClick(View view) {
+        user = (EditText) findViewById(R.id.etRegUsername);
+        password = (EditText) findViewById(R.id.etRegPassword);
+
+        if (user.getText() == null || user.getText().toString().equals("") || password.getText() == null || password.getText().toString().equals("")) {
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.empty_login), Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!checkConnection()) {
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        new CallAPI() {
+            @Override
+            protected void onPostExecute(final String result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(result.equals("ok")) {
+                            Credentials.user = user.getText().toString().trim();
+                            Credentials.password = password.getText().toString().trim();
+                            Credentials.invitado = false;
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.register), Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(MainActivity.this, ScoreActivity.class);
+                            i.putExtra("menu", true);
+                            startActivity(i);
+                        } else
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.username_take), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }.execute(
+                Uri.parse("http://www.iesmurgi.org:85/raquel2017/register.php")
                         .buildUpon()
                         .appendQueryParameter("user", user.getText().toString().trim())
                         .appendQueryParameter("pass", password.getText().toString().trim())

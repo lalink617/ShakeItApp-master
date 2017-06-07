@@ -1,4 +1,4 @@
-package project.proyectointegradoraquelgutierrez;
+package project.proyectointegradoraquelgutierrez.Score;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListScore extends BaseAdapter {
+import project.proyectointegradoraquelgutierrez.R;
+
+public class ScoreAdapter extends BaseAdapter {
     private ArrayList<UserScore> users;
 
-    public ListScore(ArrayList<UserScore> userScores) {
+    public ScoreAdapter(ArrayList<UserScore> userScores) {
         users = userScores;
     }
 

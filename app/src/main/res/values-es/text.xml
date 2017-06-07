@@ -17,4 +17,7 @@
     <string name="exit_confirm_body">¿Estás seguro de que deseas salir?</string>
     <string name="confirm">Sí</string>
     <string name="cancel">Cancelar</string>
+    <string name="score">Puntos</string>
+    <string name="register">Te has registrado correctamente!</string>
+    <string name="username_take">El usuario ya está en uso</string>
 </resources>

@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private float lastValueX = 0, lastValueY = 0, lastValueZ = 0;
     private float currentValueX = 0, currentValueY = 0, currentValueZ = 0;
     private ArrayList<Integer> evolution = new ArrayList<>();
-    private static final short startR=226, startG=244, startB=199, endR=255, endG=78, endB=80;
+    private static final short startR=53, startG=61, startB=84, endR=221, endG=98, endB=92;
     private long lastColorChangeTime = 0;
     private int maxSinceLastChange = 0;
     Timer timer = new Timer();
@@ -59,6 +58,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 if(evolution.size() < 10) evolution.add(valueCount == 0 ? 0 : average/valueCount);
                 Intent i = new Intent(ShakeActivity.this, ScoreActivity.class);
                 i.putIntegerArrayListExtra("scores", evolution);
+                i.putExtra("menu", false);
                 startActivity(i);
             }
         });
@@ -152,7 +152,9 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         builder.setMessage(R.string.exit_confirm_body);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                startActivity(new Intent(ShakeActivity.this, MainActivity.class));
+                Intent i = new Intent();
+                i.putExtra("menu", true);
+                startActivity(i);
                 timer.cancel();
                 timer.purge();
                 finish();

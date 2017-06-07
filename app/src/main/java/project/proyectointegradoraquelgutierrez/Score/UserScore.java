@@ -1,4 +1,4 @@
-package project.proyectointegradoraquelgutierrez;
+package project.proyectointegradoraquelgutierrez.Score;
 
 /**
  * Created by Raquel on 07/06/2017.

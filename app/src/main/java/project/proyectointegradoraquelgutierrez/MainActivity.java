@@ -18,6 +18,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private EditText user, password;
+    private URL url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().hide();
+
+        try {
+            url = new URL("http://www.iesmurgi.org:85/raquel/check_login.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -86,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
             return;
         }
+
         new CallAPI() {
             @Override
             protected void onPostExecute(final String result) {
@@ -94,18 +108,18 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         if(result.equals("ok")) {
                             startActivity(new Intent(MainActivity.this, ShakeActivity.class));
-                            Credentials.user = user.getText().toString();
-                            Credentials.password = password.getText().toString();
+                            Credentials.user = user.getText().toString().trim();
+                            Credentials.password = password.getText().toString().trim();
                         } else
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.bad_login), Toast.LENGTH_LONG).show();
                     }
                 });
             }
         }.execute(
-                Uri.parse("http://www.iesmurgi.org/raquel/check_login.php")
+                Uri.parse("http://www.iesmurgi.org:85/raquel2017/check_login.php")
                         .buildUpon()
-                        .appendQueryParameter("user", user.getText().toString())
-                        .appendQueryParameter("pass", password.getText().toString())
+                        .appendQueryParameter("user", user.getText().toString().trim())
+                        .appendQueryParameter("pass", password.getText().toString().trim())
                         .build()
                         .toString()
         );

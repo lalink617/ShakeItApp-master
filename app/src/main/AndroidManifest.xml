@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="project.proyectointegradoraquelgutierrez">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +27,8 @@
             android:label="@string/title_activity_shake"
             android:noHistory="true"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ScoreActivity"></activity>
+        <activity android:name=".ScoreActivity" />
+        <activity android:name=".ListScore"></activity>
     </application>
 
 </manifest>

@@ -18,21 +18,39 @@
         android:background="@color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_back"
+        app:srcCompat="@drawable/ic_close_white"
         android:onClick="btBackOnClick"
         android:layout_marginRight="@dimen/margin_general"
         />
 
         <TextView
+            android:id="@+id/title_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_out"
+            android:text="@string/last_scores"
             android:textAllCaps="true"
             android:textColor="@color/textColorPrimary"
             android:textSize="17sp"
-            android:textStyle="bold"
-            tools:text="CERRAR SESIÓN" />
+            android:textStyle="bold" />
+
     </android.support.v7.widget.Toolbar>
+
+    <ImageButton
+        android:id="@+id/bt_next"
+        android:visibility="gone"
+        android:onClick="btNextOnClick"
+        android:layout_width="@dimen/icon_dimen"
+        android:layout_height="@dimen/icon_dimen"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="@dimen/margin_general"
+
+        android:layout_marginTop="0dp"
+        android:background="@color/transparent"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/chart"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbarScore"
+        app:srcCompat="@drawable/ic_keyboard_arrow_right" />
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:elevation="@dimen/elevation_general"
@@ -45,19 +63,31 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarScore"
          />
+
     <TextView
         android:id="@+id/scoreChart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/textColorPrimary"
+        android:layout_marginRight="@dimen/margin_text_chart"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:background="@color/backgroundColorPrimary"
         android:textStyle="bold"
-        tools:text="704"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/chart"
-        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        tools:text="704" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score"
+            android:textAllCaps="true"
+            android:textColor="@color/textHint"
+            android:textSize="@dimen/dimen_text_secondary"
+            app:layout_constraintRight_toRightOf="@+id/scoreChart"
+            app:layout_constraintBottom_toBottomOf="@+id/chart"
+            android:layout_marginBottom="8dp" />
     <ImageButton
         android:background="@drawable/circle_solid"
         android:id="@+id/bt_play"
@@ -87,12 +117,35 @@
         app:srcCompat="@drawable/ic_menu"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.22" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_no_conex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_conex"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textColor="@color/textColorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_no_conex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_signal_wifi_off"
+        app:layout_constraintRight_toRightOf="@+id/tv_no_conex"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_no_conex"
+        app:layout_constraintBottom_toTopOf="@+id/tv_no_conex" />
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_general"
         android:background="@color/backgroundColorPrimary"
         android:elevation="@dimen/elevation_general"
         android:paddingLeft="@dimen/margin_general"

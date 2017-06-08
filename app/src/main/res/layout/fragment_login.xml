@@ -48,7 +48,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword">
+        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword"
+        android:layout_marginTop="8dp">
 
         <Button
             android:id="@+id/btLogin"
@@ -73,8 +74,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ripple1"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="@dimen/margin_general" />
+        app:layout_constraintHorizontal_bias="0.501"
+        android:layout_marginTop="8dp" />
 
 
     <ImageView
@@ -116,7 +117,7 @@
         app:mrl_rippleColor="@color/colorPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_general"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOr"

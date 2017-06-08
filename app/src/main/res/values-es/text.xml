@@ -22,4 +22,12 @@
     <string name="username_take">El usuario ya está en uso</string>
     <string name="no_data_text">Juega más partidas para ver la gráfica</string>
     <string name="sign_out">Cerrar sesión</string>
+    <string name="last_scores">Últimas 10 partidas</string>
+    <string name="me">Yo</string>
+    <string name="highest_scores">Mejores puntuaciones</string>
+    <string name="no_games_yet">No hay registro de partidas</string>
+    <string name="continue_without_conex">¿Continuar sin conexión?</string>
+    <string name="no_conex_description">Tus partidas no se guardarán hasta que no vuelvas a tener conexión</string>
+    <string name="last_game">Última partida</string>
+    <string name="cant_upload">Tus resultados no se han podio guardar</string>
 </resources>

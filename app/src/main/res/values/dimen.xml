@@ -4,7 +4,11 @@
     <dimen name="margin_general">16dp</dimen>
     <dimen name="margin_normal">32dp</dimen>
     <dimen name="margin_grande">64dp</dimen>
+    <dimen name="margin_text_chart">40dp</dimen>
 
     <!-- ELEVATION -->
     <dimen name="elevation_general">8dp</dimen>
+
+    <dimen name="icon_dimen">32dp</dimen>
+    <dimen name="dimen_text_secondary">10sp</dimen>
 </resources>

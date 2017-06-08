@@ -1,17 +1,32 @@
 package project.proyectointegradoraquelgutierrez.Score;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Raquel on 07/06/2017.
  */
 
-public class UserScore {
+public class LastScore {
     private String name;
     private int position, totalScore;
 
-    public UserScore(String name, int position, int totalScore) {
+    public LastScore(String name, int position, int totalScore) {
         this.name = name;
         this.position = position;
         this.totalScore = totalScore;
+    }
+
+    public LastScore(JSONObject jsonObject) {
+        //"score":500 , "user":"user"
+        try {
+            totalScore = jsonObject.getInt("score");
+            name = jsonObject.getString("user");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public String getUserName() {

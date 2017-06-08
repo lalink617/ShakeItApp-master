@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 import project.proyectointegradoraquelgutierrez.R;
 
-public class ScoreAdapter extends BaseAdapter {
-    private ArrayList<LastScore> users;
+public class HighestScoreAdapter extends BaseAdapter {
+    private ArrayList<HighestScore> users;
 
-    public ScoreAdapter(ArrayList<LastScore> userScores) {
+    public HighestScoreAdapter(ArrayList<HighestScore> userScores) {
         users = userScores;
     }
 
@@ -24,7 +24,7 @@ public class ScoreAdapter extends BaseAdapter {
     }
 
     @Override
-    public LastScore getItem(int i) {
+    public HighestScore getItem(int i) {
         return users.get(i);
     }
 
@@ -45,8 +45,10 @@ public class ScoreAdapter extends BaseAdapter {
         TextView position = (TextView) listItemView.findViewById(R.id.tvPosition);
         TextView name = (TextView) listItemView.findViewById(R.id.tvName);
         TextView score = (TextView) listItemView.findViewById(R.id.tvScore);
+        TextView date = (TextView) listItemView.findViewById(R.id.tvUserScore);
 
         name.setText(users.get(i).getUserName());
+        date.setText(users.get(i).getDate());
         position.setText(String.valueOf(users.get(i).getPosition()));
         score.setText(String.valueOf(users.get(i).getTotalScore()));
 

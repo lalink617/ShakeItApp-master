@@ -22,4 +22,12 @@
     <string name="username_take">Username already taken</string>
     <string name="no_data_text">Play more games to see the Chart</string>
     <string name="sign_out">Sign out</string>
+    <string name="last_scores">Last 10 matches</string>
+    <string name="me">Me</string>
+    <string name="highest_scores">Highest scores</string>
+    <string name="no_games_yet">No score values yet</string>
+    <string name="continue_without_conex">Continue without connection?</string>
+    <string name="no_conex_description">Your scores won´t be saved until you have Internet connection</string>
+    <string name="last_game">Last game</string>
+    <string name="cant_upload">Your results couldn´t be saved</string>
 </resources>

@@ -2,6 +2,7 @@ package project.proyectointegradoraquelgutierrez;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,10 +18,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private EditText user, password;
-    private URL url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btGuestSessionOnClick(View view) {
-        if (checkConnection()) {
+        //if (checkConnection()) {
             Credentials.invitado = true;
             startActivity(new Intent(MainActivity.this, ShakeActivity.class));
-        }
+        //}
 
-        else Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
+        //else Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
     }
 
     public boolean checkConnection() {

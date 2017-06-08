@@ -6,17 +6,57 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColorSecondary"
     tools:context="project.proyectointegradoraquelgutierrez.ScoreActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="0dp"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/toolbarScore">
+    <ImageButton
+        android:background="@color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_arrow_back"
+        android:onClick="btBackOnClick"
+        android:layout_marginRight="@dimen/margin_general"
+        />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_out"
+            android:textAllCaps="true"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            tools:text="CERRAR SESIÓN" />
+    </android.support.v7.widget.Toolbar>
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:elevation="@dimen/elevation_general"
+
         android:background="@color/backgroundColorPrimary"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarScore"
+         />
+    <TextView
+        android:id="@+id/scoreChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColorPrimary"
+        android:textStyle="bold"
+        tools:text="704"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chart"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageButton
         android:background="@drawable/circle_solid"
@@ -52,7 +92,6 @@
         android:id="@+id/list_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginTop="16dp"
         android:background="@color/backgroundColorPrimary"
         android:elevation="@dimen/elevation_general"
@@ -60,12 +99,12 @@
         android:paddingRight="@dimen/elevation_general"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_history"
-        android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent">
 
 
     </ListView>
+
+
 
 </android.support.constraint.ConstraintLayout>

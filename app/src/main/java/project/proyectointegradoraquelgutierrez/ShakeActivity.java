@@ -48,7 +48,6 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         setContentView(R.layout.activity_shake);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
         timer.schedule(new TimerTask() {
     @Override
     public void run() {

@@ -20,4 +20,6 @@
     <string name="score">Score</string>
     <string name="register">You have successfully registered!</string>
     <string name="username_take">Username already taken</string>
+    <string name="no_data_text">Play more games to see the Chart</string>
+    <string name="sign_out">Sign out</string>
 </resources>

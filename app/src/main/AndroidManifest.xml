@@ -26,8 +26,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_shake"
             android:noHistory="true"
-            android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ScoreActivity" />
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".ScoreActivity"
+            android:label=""
+            android:theme="@style/NoActionBar"/>
         <activity android:name=".Score.ScoreAdapter"></activity>
     </application>
 

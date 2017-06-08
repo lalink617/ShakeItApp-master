@@ -20,4 +20,6 @@
     <string name="score">Puntos</string>
     <string name="register">Te has registrado correctamente!</string>
     <string name="username_take">El usuario ya está en uso</string>
+    <string name="no_data_text">Juega más partidas para ver la gráfica</string>
+    <string name="sign_out">Cerrar sesión</string>
 </resources>

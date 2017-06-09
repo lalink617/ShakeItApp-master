@@ -47,11 +47,10 @@ public class ScoreActivity extends AppCompatActivity {
     Toolbar toolbar;
     ArrayList<Score> lastScores = new ArrayList<>();
     ArrayList<Score> highestScores = new ArrayList<>();
-    ArrayList<Integer> myLastScores = new ArrayList<>();
-    ArrayList<Integer> myLastScoreSaved = new ArrayList<>();
+    ArrayList<Integer> myLastGame = new ArrayList<>();
     JSONObject object;
     JSONArray json_array;
-    private int totalScore;
+    private int totalScore, lastGameTotalScore;
     TextView tvTotalScore, tvTitle;
     private boolean isMenu, lastGame;
 
@@ -70,6 +69,7 @@ public class ScoreActivity extends AppCompatActivity {
         if(!isMenu) {
             tvTitle = (TextView) findViewById(R.id.title_toolbar);
             tvTitle.setText(R.string.last_game);
+            myLastGame = getIntent().getIntegerArrayListExtra("scores");
             if (!Credentials.invitado)
                 ((ImageButton) findViewById(R.id.bt_next)).setVisibility(View.VISIBLE);
         }
@@ -83,76 +83,12 @@ public class ScoreActivity extends AppCompatActivity {
                         public void run() {
                             try {
                                 object = new JSONObject(result);
+                                if (!isMenu)
+                                    drawChart(object, true);
+                                else
+                                    drawChart(object, false);
 
-                                json_array = object.getJSONArray("your_last_scores");
-                                for (int i = 0; i < json_array.length(); i++) {
-                                    myLastScores.add(json_array.getInt(i));
-                                }
-
-                                // GRAFICA
-
-                                chart = (LineChart) findViewById(R.id.chart);
-                                ArrayList<Integer> scores = new ArrayList<>();
-
-                                // SI NO ES LA PRIMERA PANTALLA
-                                if (!isMenu) {
-                                    scores = getIntent().getIntegerArrayListExtra("scores");
-                                    myLastScoreSaved = scores;
-                                }else {
-                                    // Si no hay 10 partidas jugadas lo rellena con ceros al principio.
-                                    for(int i = 0; i < 10 - myLastScores.size(); i++)
-                                        scores.add(0);
-                                    for (int i = 0; i < myLastScores.size(); i++)
-                                        scores.add(myLastScores.get(i));
-                                }
-                                totalScore = 0;
-                                List<Entry> entries = new ArrayList<Entry>();
-
-                                for (int i = 0; i < scores.size(); i++) {
-                                    entries.add(new Entry(i, scores.get(i)));
-                                    totalScore += scores.get(i);
-                                }
-                                chart.getAxisLeft().setDrawGridLines(true);
-                                chart.getAxisLeft().setDrawAxisLine(false);
-                                chart.getAxisLeft().setDrawLabels(false);
-                                chart.getXAxis().setEnabled(false);
-                                //chart.getAxisLeft().setEnabled(false);
-                                chart.getAxisRight().setEnabled(false);
-                                chart.setBorderColor(R.color.backgroundColorPrimary);
-
-
-                                chart.setNoDataText(getResources().getString(R.string.no_data_text));
-                                dataSet = new LineDataSet(entries, "Score"); // add entries to dataset
-
-                                dataSet.setDrawVerticalHighlightIndicator(false);
-                                dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                                dataSet.setDrawCircles(false);
-
-                                //dataSet.setValueTextColor(R.color.textHint);
-                                dataSet.setDrawValues(false);
-                                dataSet.setValueFormatter(new IValueFormatter() {
-                                    @Override
-                                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                                        return Integer.toString((int) value);
-                                    }
-                                });
-                                tvTotalScore = (TextView) findViewById(R.id.scoreChart);
-                                tvTotalScore.setText(String.valueOf(totalScore));
-                                chart.setDrawBorders(false);
-                                chart.getLegend().setEnabled(false);
-                                dataSet.setLabel(totalScore + "");
-                                dataSet.setFillColor(R.color.backgroundColorPrimary);
-                                //dataSet.setColor();
-                                //dataSet.setValueTextColor();
-                                Description descr = new Description();
-                                descr.setText("");
-                                chart.setDescription(descr);
-
-                                LineData lineData = new LineData(dataSet);
-                                chart.setData(lineData);
-
-
-                                // MUESTRA EL SCORE DE LAS 10 ULTIMAS PARTIDAS
+                            // MUESTRA EL SCORE DE LAS 10 ULTIMAS PARTIDAS
                                 json_array = object.getJSONArray("last_scores");
 
                                 for (int i = 0; i < json_array.length(); i++) {
@@ -183,9 +119,16 @@ public class ScoreActivity extends AppCompatActivity {
                     .appendQueryParameter("user", Credentials.user)
                     .toString()
             );
+        } else {
+            //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
+            ((ImageView) findViewById(R.id.iv_no_conex)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.tv_no_conex)).setVisibility(View.VISIBLE);
         }
 
         // SUBE El RESULTADO
+        for (int i = 0; i < myLastGame.size(); i++) {
+            lastGameTotalScore += myLastGame.get(i);
+        }
         if (!Credentials.invitado || !isMenu) {
             if (checkConnection()) {
                 new CallAPI() {
@@ -205,7 +148,7 @@ public class ScoreActivity extends AppCompatActivity {
                                 .buildUpon()
                                 .appendQueryParameter("user", Credentials.user)
                                 .appendQueryParameter("pass", Credentials.password)
-                                .appendQueryParameter("score", Integer.toString(totalScore))
+                                .appendQueryParameter("score", Integer.toString(lastGameTotalScore))
                                 .build()
                                 .toString()
                 );
@@ -302,11 +245,7 @@ public class ScoreActivity extends AppCompatActivity {
         totalScore = 0;
         List<Entry> entries = new ArrayList<Entry>();
         if (lastGame) {
-            for (int i = 0; i < myLastScoreSaved.size(); i++) {
-                entries.add(new Entry(i, myLastScoreSaved.get(i)));
-                totalScore += myLastScoreSaved.get(i);
-            }
-            dataSet.setValues(entries);
+            drawChart(object, lastGame);
             tvTitle.setText(R.string.last_game);
             lastGame = false;
         } else {
@@ -318,95 +257,7 @@ public class ScoreActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    myLastScores.clear();
-
-                                    object = new JSONObject(result);
-
-                                    json_array = object.getJSONArray("your_last_scores");
-                                    for (int i = 0; i < json_array.length(); i++) {
-                                        myLastScores.add(json_array.getInt(i));
-                                    }
-
-                                    // GRAFICA
-
-                                    chart = (LineChart) findViewById(R.id.chart);
-                                    ArrayList<Integer> scores = new ArrayList<>();
-
-                                    // SI NO ES LA PRIMERA PANTALLA
-
-
-                                    // Si no hay 10 partidas jugadas lo rellena con ceros al principio.
-                                    for (int i = 0; i < 10 - myLastScores.size(); i++)
-                                        scores.add(0);
-                                    for (int i = 0; i < myLastScores.size(); i++)
-                                        scores.add(myLastScores.get(i));
-
-                                    totalScore = 0;
-                                    List<Entry> entries = new ArrayList<Entry>();
-
-                                    for (int i = 0; i < scores.size(); i++) {
-                                        entries.add(new Entry(i, scores.get(i)));
-                                        totalScore += scores.get(i);
-                                    }
-                                    chart.getAxisLeft().setDrawGridLines(true);
-                                    chart.getAxisLeft().setDrawAxisLine(false);
-                                    chart.getAxisLeft().setDrawLabels(false);
-                                    chart.getXAxis().setEnabled(false);
-                                    //chart.getAxisLeft().setEnabled(false);
-                                    chart.getAxisRight().setEnabled(false);
-                                    chart.setBorderColor(R.color.backgroundColorPrimary);
-
-
-                                    chart.setNoDataText(getResources().getString(R.string.no_data_text));
-                                    dataSet = new LineDataSet(entries, "Score"); // add entries to dataset
-
-                                    dataSet.setDrawVerticalHighlightIndicator(false);
-                                    dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                                    dataSet.setDrawCircles(false);
-
-                                    //dataSet.setValueTextColor(R.color.textHint);
-                                    dataSet.setDrawValues(false);
-                                    dataSet.setValueFormatter(new IValueFormatter() {
-                                        @Override
-                                        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                                            return Integer.toString((int) value);
-                                        }
-                                    });
-                                    tvTotalScore = (TextView) findViewById(R.id.scoreChart);
-                                    tvTotalScore.setText(String.valueOf(totalScore));
-                                    chart.setDrawBorders(false);
-                                    chart.getLegend().setEnabled(false);
-                                    dataSet.setLabel(totalScore + "");
-                                    dataSet.setFillColor(R.color.backgroundColorPrimary);
-                                    //dataSet.setColor();
-                                    //dataSet.setValueTextColor();
-                                    Description descr = new Description();
-                                    descr.setText("");
-                                    chart.setDescription(descr);
-
-                                    LineData lineData = new LineData(dataSet);
-                                    chart.setData(lineData);
-
-
-                                    // MUESTRA EL SCORE DE LAS 10 ULTIMAS PARTIDAS
-                                    json_array = object.getJSONArray("last_scores");
-
-                                    for (int i = 0; i < json_array.length(); i++) {
-                                        lastScores.add(new Score(json_array.getJSONObject(i)));
-                                    }
-
-                                    if (!lastScores.isEmpty()) {
-                                        ListView listView = (ListView) findViewById(R.id.list_view);
-                                        ScoreAdapter adapter = new ScoreAdapter(lastScores);
-                                        listView.setAdapter(adapter);
-
-                                    } else {
-                                        //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
-                                        ((ImageView) findViewById(R.id.iv_no_conex)).setVisibility(View.VISIBLE);
-                                        ((TextView) findViewById(R.id.tv_no_conex)).setVisibility(View.VISIBLE);
-                                    }
-
-                                    chart.invalidate();
+                                    drawChart(new JSONObject(result), lastGame);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -430,5 +281,83 @@ public class ScoreActivity extends AppCompatActivity {
 
     public void btNextOnClick(View view) {
         changeChartValues();
+    }
+
+    private void drawChart(JSONObject object, boolean lastGame) {
+        try {
+
+            json_array = object.getJSONArray("your_last_scores");
+            ArrayList<Integer> myLastScores = new ArrayList<Integer>();
+            for (int i = 0; i < json_array.length(); i++) {
+                myLastScores.add(json_array.getInt(i));
+            }
+
+            // GRAFICA
+
+            chart = (LineChart) findViewById(R.id.chart);
+            ArrayList<Integer> scores = new ArrayList<>();
+
+            // SI NO ES LA PRIMERA PANTALLA
+            if (!isMenu ) {
+                scores = myLastGame;
+            }else if (lastGame) {
+                scores = myLastGame;
+            }else if (!lastGame){
+                // Si no hay 10 partidas jugadas lo rellena con ceros al principio.
+                for(int i = 0; i < 10 - myLastScores.size(); i++)
+                    scores.add(0);
+                for (int i = 0; i < myLastScores.size(); i++)
+                    scores.add(myLastScores.get(i));
+            }
+            totalScore = 0;
+            List<Entry> entries = new ArrayList<Entry>();
+
+            for (int i = 0; i < scores.size(); i++) {
+                entries.add(new Entry(i, scores.get(i)));
+                totalScore += scores.get(i);
+            }
+            chart.getAxisLeft().setDrawGridLines(true);
+            chart.getAxisLeft().setDrawAxisLine(false);
+            chart.getAxisLeft().setDrawLabels(false);
+            chart.getXAxis().setEnabled(false);
+            //chart.getAxisLeft().setEnabled(false);
+            chart.getAxisRight().setEnabled(false);
+            chart.setBorderColor(R.color.backgroundColorPrimary);
+
+
+            chart.setNoDataText(getResources().getString(R.string.no_data_text));
+            dataSet = new LineDataSet(entries, "Score"); // add entries to dataset
+
+            dataSet.setDrawVerticalHighlightIndicator(false);
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            dataSet.setDrawCircles(false);
+
+            //dataSet.setValueTextColor(R.color.textHint);
+            dataSet.setDrawValues(false);
+            dataSet.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    return Integer.toString((int) value);
+                }
+            });
+            tvTotalScore = (TextView) findViewById(R.id.scoreChart);
+            tvTotalScore.setText(String.valueOf(totalScore));
+            chart.setDrawBorders(false);
+            chart.getLegend().setEnabled(false);
+            dataSet.setLabel(totalScore + "");
+            dataSet.setFillColor(R.color.backgroundColorPrimary);
+            //dataSet.setColor();
+            //dataSet.setValueTextColor();
+            Description descr = new Description();
+            descr.setText("");
+            chart.setDescription(descr);
+
+            LineData lineData = new LineData(dataSet);
+            chart.setData(lineData);
+
+            chart.invalidate();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

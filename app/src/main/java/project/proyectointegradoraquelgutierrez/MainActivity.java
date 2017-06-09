@@ -1,5 +1,6 @@
 package project.proyectointegradoraquelgutierrez;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,9 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,6 +161,21 @@ public class MainActivity extends AppCompatActivity {
                         .toString()
         );
     }
+
+    public void logoOnClick(View view) {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.about);
+        ImageButton ib = (ImageButton) dialog.findViewById(R.id.imageExit);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

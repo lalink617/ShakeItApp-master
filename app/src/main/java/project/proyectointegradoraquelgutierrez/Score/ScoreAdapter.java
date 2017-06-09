@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import project.proyectointegradoraquelgutierrez.R;
 
 public class ScoreAdapter extends BaseAdapter {
-    private ArrayList<LastScore> users;
+    private ArrayList<Score> users;
 
-    public ScoreAdapter(ArrayList<LastScore> userScores) {
+    public ScoreAdapter(ArrayList<Score> userScores) {
         users = userScores;
     }
 
@@ -24,7 +24,7 @@ public class ScoreAdapter extends BaseAdapter {
     }
 
     @Override
-    public LastScore getItem(int i) {
+    public Score getItem(int i) {
         return users.get(i);
     }
 

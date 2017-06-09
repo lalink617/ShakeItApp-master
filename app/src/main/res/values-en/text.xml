@@ -30,4 +30,5 @@
     <string name="no_conex_description">Your scores won´t be saved until you have Internet connection</string>
     <string name="last_game">Last game</string>
     <string name="cant_upload">Your results couldn´t be saved</string>
+    <string name="created_by">Created by:</string>
 </resources>

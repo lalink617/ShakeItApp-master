@@ -11,6 +11,7 @@
         android:layout_height="100dp">
 
         <ImageView
+            android:onClick="logoOnClick"
             android:layout_centerInParent="true"
             android:id="@+id/imageView"
             android:layout_width="80dp"

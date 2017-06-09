@@ -1,31 +1,33 @@
 package project.proyectointegradoraquelgutierrez.Score;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Raquel on 08/06/2017.
+ * Created by Raquel on 07/06/2017.
  */
 
-public class HighestScore {
+public class Score {
     private String name;
     private int position, totalScore;
-    private String date;
 
-    public HighestScore(String name, int totalScore, String date) {
+    public Score(String name, int position, int totalScore) {
         this.name = name;
         this.position = position;
         this.totalScore = totalScore;
-        this.date = date;
     }
 
-    public HighestScore(JSONObject jsonObject) {
-        //"score":500 , "user":"user", "date":"08/06/2017"
+    public Score(JSONObject jsonObject) {
+        //"score":500 , "user":"user"
         try {
             totalScore = jsonObject.getInt("score");
             name = jsonObject.getString("user");
-            date = jsonObject.getString("date");
+            position = jsonObject.getInt("rank");
 
+            System.out.println("Constructor de Score: "
+                    + name + " " + position + " " + totalScore);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -55,13 +57,5 @@ public class HighestScore {
 
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 }

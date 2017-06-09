@@ -30,4 +30,5 @@
     <string name="no_conex_description">Tus partidas no se guardarán hasta que no vuelvas a tener conexión</string>
     <string name="last_game">Última partida</string>
     <string name="cant_upload">Tus resultados no se han podio guardar</string>
+    <string name="created_by">Hecho por:</string>
 </resources>

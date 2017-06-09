@@ -35,21 +35,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import project.proyectointegradoraquelgutierrez.Score.HighestScore;
-import project.proyectointegradoraquelgutierrez.Score.HighestScoreAdapter;
-import project.proyectointegradoraquelgutierrez.Score.LastScore;
+import project.proyectointegradoraquelgutierrez.Score.Score;
 import project.proyectointegradoraquelgutierrez.Score.ScoreAdapter;
 
+/**
+ *
+ */
 public class ScoreActivity extends AppCompatActivity {
     LineChart chart;
     LineDataSet dataSet;
-    ArrayList<LastScore> lastScores = new ArrayList<>();
-    ArrayList<HighestScore> highestScores = new ArrayList<>();
+    Toolbar toolbar;
+    ArrayList<Score> lastScores = new ArrayList<>();
+    ArrayList<Score> highestScores = new ArrayList<>();
     ArrayList<Integer> myLastScores = new ArrayList<>();
     ArrayList<Integer> myLastScoreSaved = new ArrayList<>();
     JSONObject object;
     JSONArray json_array;
-    TextView tvTotalScore;
+    TextView tvTotalScore, tvTitle;
     private boolean isMenu, lastGame;
 
     @Override
@@ -58,13 +60,14 @@ public class ScoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarScore);
+        toolbar = (Toolbar) findViewById(R.id.toolbarScore);
         setSupportActionBar(toolbar);
         isMenu = getIntent().getExtras().getBoolean("menu");
         lastGame = !isMenu;
 
         if(!isMenu) {
-            ((TextView) findViewById(R.id.title_toolbar)).setText(R.string.last_game);
+            tvTitle = (TextView) findViewById(R.id.title_toolbar);
+            tvTitle.setText(R.string.last_game);
             if (!Credentials.invitado)
                 ((ImageButton) findViewById(R.id.bt_next)).setVisibility(View.VISIBLE);
         }
@@ -83,9 +86,9 @@ public class ScoreActivity extends AppCompatActivity {
                             try {
                                 object = new JSONObject(result);
 
-                                json_array = object.optJSONArray("your_last_scores");
+                                json_array = object.getJSONArray("your_last_scores");
                                 for (int i = 0; i < json_array.length(); i++) {
-                                    myLastScores.add(json_array.getJSONObject(i).getInt("score"));
+                                    myLastScores.add(json_array.getInt(i));
                                 }
 
 
@@ -96,9 +99,10 @@ public class ScoreActivity extends AppCompatActivity {
                     });
                 }
             }.execute(
-                    Uri.parse("http://www.iesmurgi.org:85/raquel2017/check_login.php/scores.php")
-                            .buildUpon()
-                            .toString()
+                Uri.parse("http://www.iesmurgi.org:85/raquel2017/ranking.php")
+                    .buildUpon()
+                    .appendQueryParameter("user", Credentials.user)
+                    .toString()
             );
         }
         //
@@ -112,12 +116,10 @@ public class ScoreActivity extends AppCompatActivity {
             myLastScoreSaved = scores;
         }else {
             // Si no hay 10 partidas jugadas lo rellena con ceros al principio.
-            int index = 10 - myLastScores.size();
-            for (int i = 0; i < myLastScores.size(); i++ ) {
-                if (i >= index)
-                    scores.add(myLastScores.get(i));
-                else scores.add(0);
-            }
+            for(int i = 0; i < 10 - myLastScores.size(); i++)
+                scores.add(0);
+            for (int i = 0; i < myLastScores.size(); i++)
+                scores.add(myLastScores.get(i));
         }
         int totalScore = 0;
         List<Entry> entries = new ArrayList<Entry>();
@@ -133,9 +135,10 @@ public class ScoreActivity extends AppCompatActivity {
         //chart.getAxisLeft().setEnabled(false);
         chart.getAxisRight().setEnabled(false);
         chart.setBorderColor(R.color.backgroundColorPrimary);
-        dataSet = new LineDataSet(entries, "Score"); // add entries to dataset
+
 
         chart.setNoDataText(getResources().getString(R.string.no_data_text));
+        dataSet = new LineDataSet(entries, "Score"); // add entries to dataset
 
         dataSet.setDrawVerticalHighlightIndicator(false);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
@@ -168,15 +171,14 @@ public class ScoreActivity extends AppCompatActivity {
         // MUESTRA EL SCORE DE LAS 10 ULTIMAS PARTIDAS
         if (json_array != null) {
             try {
-                json_array = object.optJSONArray("last_scores");
+                json_array = object.getJSONArray("last_scores");
                 for (int i = 0; i < json_array.length(); i++) {
-                    lastScores.add(new LastScore(json_array.getJSONObject(i)));
+                    lastScores.add(new Score(json_array.getJSONObject(i)));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-
 
         if (!lastScores.isEmpty()) {
             ScoreAdapter adapter = new ScoreAdapter(lastScores);
@@ -198,8 +200,8 @@ public class ScoreActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                            if(!result.equals("ok"))
-                                Toast.makeText(ScoreActivity.this, getResources().getString(R.string.cant_upload), Toast.LENGTH_SHORT).show();
+                                if(!result.equals("ok"))
+                                    Toast.makeText(ScoreActivity.this, getResources().getString(R.string.cant_upload), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -248,30 +250,30 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     public void btHistoryOnClick(View view) {
-            final Dialog dialog = new Dialog(ScoreActivity.this);
-            dialog.setContentView(R.layout.list_view_history);
-            dialog.setTitle(getResources().getString(R.string.highest_scores));
-            if (json_array == null) {
-                try {
-                    json_array = object.optJSONArray("highest_scores");
+        final Dialog dialog = new Dialog(ScoreActivity.this);
+        dialog.setContentView(R.layout.list_view_history);
+        dialog.setTitle(getResources().getString(R.string.highest_scores));
+        if (json_array != null) {
+            try {
+                json_array = object.getJSONArray("highest_scores");
 
-                    for (int i = 0; i < json_array.length(); i++) {
-                        highestScores.add(new HighestScore(json_array.getJSONObject(i)));
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                for (int i = 0; i < json_array.length(); i++) {
+                    highestScores.add(new Score(json_array.getJSONObject(i)));
                 }
-            }
 
-            ListView listView = (ListView) dialog.findViewById(R.id.list_view_history);
-            if (highestScores.isEmpty()) {
-                Toast.makeText(this, getResources().getString(R.string.no_games_yet), Toast.LENGTH_SHORT).show();
-                return;
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            HighestScoreAdapter adapter = new HighestScoreAdapter(highestScores);
-            listView.setAdapter(adapter);
-            dialog.show();
+        } else return;
+
+        ListView listView = (ListView) dialog.findViewById(R.id.list_view_history);
+        if (highestScores.isEmpty()) {
+            Toast.makeText(this, getResources().getString(R.string.no_games_yet), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ScoreAdapter adapter = new ScoreAdapter(highestScores);
+        listView.setAdapter(adapter);
+        dialog.show();
         //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
 
     }
@@ -311,6 +313,7 @@ public class ScoreActivity extends AppCompatActivity {
                 totalScore += myLastScoreSaved.get(i);
             }
             dataSet.setValues(entries);
+            tvTitle.setText(R.string.last_game);
             lastGame = false;
         } else {
             for (int i = 0; i < myLastScores.size(); i++) {
@@ -318,6 +321,7 @@ public class ScoreActivity extends AppCompatActivity {
                 totalScore += myLastScores.get(i);
             }
             dataSet.setValues(entries);
+            tvTitle.setText(R.string.last_scores);
             lastGame = true;
         }
         tvTotalScore.setText(String.valueOf(totalScore));

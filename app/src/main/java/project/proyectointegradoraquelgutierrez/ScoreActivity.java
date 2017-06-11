@@ -62,8 +62,9 @@ public class ScoreActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbarScore);
         setSupportActionBar(toolbar);
-        isMenu = getIntent().getExtras().getBoolean("menu");
         lastGame = !isMenu;
+        isMenu = getIntent().getExtras().getBoolean("menu");
+        chart = (LineChart) findViewById(R.id.chart);
 
 
         if(!isMenu) {
@@ -72,57 +73,6 @@ public class ScoreActivity extends AppCompatActivity {
             myLastGame = getIntent().getIntegerArrayListExtra("scores");
             if (!Credentials.invitado)
                 ((ImageButton) findViewById(R.id.bt_next)).setVisibility(View.VISIBLE);
-        }
-
-        if (checkConnection()) {
-            new CallAPI() {
-                @Override
-                protected void onPostExecute(final String result) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                object = new JSONObject(result);
-                                if (!isMenu)
-                                    drawChart(object, true);
-                                else
-                                    drawChart(object, false);
-
-                            // MUESTRA EL SCORE DE LAS 10 ULTIMAS PARTIDAS
-                                json_array = object.getJSONArray("last_scores");
-
-                                for (int i = 0; i < json_array.length(); i++) {
-                                    lastScores.add(new Score(json_array.getJSONObject(i)));
-                                }
-
-                                if (!lastScores.isEmpty()) {
-                                    ListView listView =(ListView) findViewById(R.id.list_view);
-                                    ScoreAdapter adapter = new ScoreAdapter(lastScores);
-                                    listView.setAdapter(adapter);
-
-                                } else {
-                                    //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
-                                    ((ImageView) findViewById(R.id.iv_no_conex)).setVisibility(View.VISIBLE);
-                                    ((TextView) findViewById(R.id.tv_no_conex)).setVisibility(View.VISIBLE);
-                                }
-
-                                chart.invalidate();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
-            }.execute(
-                Uri.parse("http://www.iesmurgi.org:85/raquel2017/ranking.php")
-                    .buildUpon()
-                    .appendQueryParameter("user", Credentials.user)
-                    .toString()
-            );
-        } else {
-            //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
-            ((ImageView) findViewById(R.id.iv_no_conex)).setVisibility(View.VISIBLE);
-            ((TextView) findViewById(R.id.tv_no_conex)).setVisibility(View.VISIBLE);
         }
 
         // SUBE El RESULTADO
@@ -157,6 +107,60 @@ public class ScoreActivity extends AppCompatActivity {
                 Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
             }
         }
+
+        // CARGA DATOS
+        final ListView listView = (ListView) findViewById(R.id.list_view);
+        if (checkConnection()) {
+            new CallAPI() {
+                @Override
+                protected void onPostExecute(final String result) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                object = new JSONObject(result);
+                                if (!isMenu)
+                                    drawChart(object, true);
+                                else
+                                    drawChart(object, false);
+
+                            // MUESTRA EL SCORE DE LAS 10 ULTIMAS PARTIDAS
+                                json_array = object.getJSONArray("last_scores");
+
+                                for (int i = 0; i < json_array.length(); i++) {
+                                    lastScores.add(new Score(json_array.getJSONObject(i)));
+                                }
+
+                                if (!lastScores.isEmpty()) {
+                                    ScoreAdapter adapter = new ScoreAdapter(lastScores);
+                                    listView.setAdapter(adapter);
+
+                                } else {
+                                    //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
+                                    ((ImageView) findViewById(R.id.iv_no_conex)).setVisibility(View.VISIBLE);
+                                    ((TextView) findViewById(R.id.tv_no_conex)).setVisibility(View.VISIBLE);
+                                }
+
+                                chart.invalidate();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }.execute(
+                Uri.parse("http://www.iesmurgi.org:85/raquel2017/ranking.php")
+                    .buildUpon()
+                    .appendQueryParameter("user", Credentials.user)
+                    .toString()
+            );
+        } else {
+            //Toast.makeText(this, getResources().getString(R.string.no_conex), Toast.LENGTH_SHORT).show();
+            drawChart(object, true);
+            ((ImageView) findViewById(R.id.iv_no_conex)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.tv_no_conex)).setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        }
     }
 
     public void btPlayOnClick(View view) {
@@ -170,6 +174,7 @@ public class ScoreActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         startActivity(new Intent(ScoreActivity.this, ShakeActivity.class));
+                        finish();
                     }
                 });
                 builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -223,6 +228,7 @@ public class ScoreActivity extends AppCompatActivity {
                 Credentials.password = null;
                 Credentials.user = null;
                 startActivity(new Intent(ScoreActivity.this, MainActivity.class));
+                finish();
             }
         });
         builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -243,10 +249,9 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void changeChartValues() {
         totalScore = 0;
-        List<Entry> entries = new ArrayList<Entry>();
         if (lastGame) {
-            drawChart(object, lastGame);
-            tvTitle.setText(R.string.last_game);
+            drawChart(object, false);
+            tvTitle.setText(R.string.last_scores);
             lastGame = false;
         } else {
             if (checkConnection()) {
@@ -257,7 +262,7 @@ public class ScoreActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    drawChart(new JSONObject(result), lastGame);
+                                    drawChart(new JSONObject(result), true);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -271,7 +276,7 @@ public class ScoreActivity extends AppCompatActivity {
                                 .toString()
                 );
 
-                tvTitle.setText(R.string.last_scores);
+                tvTitle.setText(R.string.last_game);
                 lastGame = true;
             }
         }
@@ -286,23 +291,19 @@ public class ScoreActivity extends AppCompatActivity {
     private void drawChart(JSONObject object, boolean lastGame) {
         try {
 
-            json_array = object.getJSONArray("your_last_scores");
-            ArrayList<Integer> myLastScores = new ArrayList<Integer>();
-            for (int i = 0; i < json_array.length(); i++) {
-                myLastScores.add(json_array.getInt(i));
-            }
-
             // GRAFICA
-
-            chart = (LineChart) findViewById(R.id.chart);
             ArrayList<Integer> scores = new ArrayList<>();
 
             // SI NO ES LA PRIMERA PANTALLA
-            if (!isMenu ) {
+            if (lastGame) {
                 scores = myLastGame;
-            }else if (lastGame) {
-                scores = myLastGame;
-            }else if (!lastGame){
+            }else {
+                json_array = object.getJSONArray("your_last_scores");
+                ArrayList<Integer> myLastScores = new ArrayList<Integer>();
+                for (int i = 0; i < json_array.length(); i++) {
+                    myLastScores.add(json_array.getInt(i));
+                }
+
                 // Si no hay 10 partidas jugadas lo rellena con ceros al principio.
                 for(int i = 0; i < 10 - myLastScores.size(); i++)
                     scores.add(0);

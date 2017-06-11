@@ -31,4 +31,5 @@
     <string name="last_game">Última partida</string>
     <string name="cant_upload">Tus resultados no se han podio guardar</string>
     <string name="created_by">Hecho por:</string>
+    <string name="best_score_day">Mejor del día</string>
 </resources>

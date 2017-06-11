@@ -31,4 +31,5 @@
     <string name="last_game">Last game</string>
     <string name="cant_upload">Your results couldn´t be saved</string>
     <string name="created_by">Created by:</string>
+    <string name="best_score_day">Best of the day</string>
 </resources>

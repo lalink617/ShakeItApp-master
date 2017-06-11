@@ -1,6 +1,7 @@
 package project.proyectointegradoraquelgutierrez.Score;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import project.proyectointegradoraquelgutierrez.Credentials;
 import project.proyectointegradoraquelgutierrez.R;
 
+/**
+ *
+ */
 public class ScoreAdapter extends BaseAdapter {
     private ArrayList<Score> users;
 
@@ -45,6 +50,15 @@ public class ScoreAdapter extends BaseAdapter {
         TextView position = (TextView) listItemView.findViewById(R.id.tvPosition);
         TextView name = (TextView) listItemView.findViewById(R.id.tvName);
         TextView score = (TextView) listItemView.findViewById(R.id.tvScore);
+
+        if (users.get(i).getUserName().equals(Credentials.user)) {
+            name.setTextColor(ContextCompat.getColor(viewGroup.getContext(), R.color.colorAccent));
+            score.setTextColor(ContextCompat.getColor(viewGroup.getContext(), R.color.colorAccent));
+        } else {
+            name.setTextColor(ContextCompat.getColor(viewGroup.getContext(), R.color.textColorPrimary));
+            score.setTextColor(ContextCompat.getColor(viewGroup.getContext(), R.color.textColorPrimary));
+        }
+
 
         name.setText(users.get(i).getUserName());
         position.setText(String.valueOf(users.get(i).getPosition()));

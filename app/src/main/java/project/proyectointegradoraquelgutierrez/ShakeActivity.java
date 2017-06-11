@@ -59,6 +59,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
                 i.putIntegerArrayListExtra("scores", evolution);
                 i.putExtra("menu", false);
                 startActivity(i);
+                finish();
             }
         });
             }

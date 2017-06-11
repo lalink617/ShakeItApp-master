@@ -30,7 +30,6 @@
         <activity android:name=".ScoreActivity"
             android:label=""
             android:theme="@style/NoActionBar"/>
-        <activity android:name=".Score.ScoreAdapter"></activity>
     </application>
 
 </manifest>

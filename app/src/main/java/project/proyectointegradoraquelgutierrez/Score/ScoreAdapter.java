@@ -20,6 +20,11 @@ public class ScoreAdapter extends BaseAdapter {
     private ArrayList<Score> users;
 
     /**
+     * Constructor por defecto
+     */
+    public ScoreAdapter() {}
+
+    /**
      * Copia las scores pasadas por cabecera a una variable global
      *
      * @param userScores Los usuarios con sus posiciones y puntuaciones

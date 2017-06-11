@@ -164,12 +164,7 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
         builder.setMessage(R.string.exit_confirm_body);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Intent i = new Intent();
-                if (Credentials.invitado)
-                    i.putExtra("menu", false);
-                else
-                    i.putExtra("menu", true);
-                startActivity(i);
+                //startActivity(new Intent(ShakeActivity.this, ScoreActivity.class));
                 timer.cancel();
                 timer.purge();
                 finish();

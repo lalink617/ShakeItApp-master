@@ -24,8 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.proyectointegradoraquelgutierrez.MainFragment.FragmentLogin;
-import project.proyectointegradoraquelgutierrez.MainFragment.FragmentSingup;
+import project.proyectointegradoraquelgutierrez.MainFragment.FragmentSignup;
 
+/**
+ * Clase principal en la que puedes acceder como invitado, acceder con usuario y contraseña o registrarte.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -58,11 +61,17 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(new FragmentLogin(), getResources().getString(R.string.login).toUpperCase());
-        adapter.addFragment(new FragmentSingup(), getResources().getString(R.string.singup).toUpperCase());
+        adapter.addFragment(new FragmentSignup(), getResources().getString(R.string.singup).toUpperCase());
         viewPager.setAdapter(adapter);
 
     }
 
+    /**
+     * Acción al pulsar el Botón de sesión de invitado.
+     * Inicia sesión como invitado.
+     *
+     * @param view la vista
+     */
     public void btGuestSessionOnClick(View view) {
         //if (checkConnection()) {
             Credentials.invitado = true;
@@ -72,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         //else Toast.makeText(MainActivity.this, getResources().getString(R.string.no_conex), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Método que comprueba si hay conexión a internet.
+     *
+     * @return true si hay conexión o false si no la hay.
+     */
     public boolean checkConnection() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService (Context.CONNECTIVITY_SERVICE);
@@ -79,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    /**
+     * Acción al pulsar el Botón de Login (Iniciar sesión).
+     * Inicia sesión con usuario y contraseña.
+     *
+     * @param view la vista
+     */
     public void btLoginOnClick(View view) {
         user = (EditText) findViewById(R.id.etLoginUsername);
         password = (EditText) findViewById(R.id.etLoginPassword);
@@ -120,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Acción al pulsar el Botón de SignUp (Registrar usuario).
+     * Registra un usuario con usuario y contraseña.
+     *
+     * @param view la vista
+     */
     public void btSingUpOnClick(View view) {
         user = (EditText) findViewById(R.id.etRegUsername);
         password = (EditText) findViewById(R.id.etRegPassword);
@@ -162,6 +188,12 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Acción al pulsar el logotipo.
+     * Muestra la información de la aplicación.
+     *
+     * @param view la vista
+     */
     public void logoOnClick(View view) {
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.about);
@@ -177,10 +209,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Clase que inserta los fragmentos Login y Sign Up creando un View Pager.
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        /**
+         * Instancia un ViewPageradapter.
+         *
+         * @param manager el manager
+         */
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
@@ -195,6 +235,12 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
+        /**
+         * Añade un fragmento
+         *
+         * @param fragment el fragmento
+         * @param title    el títutlo
+         */
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);

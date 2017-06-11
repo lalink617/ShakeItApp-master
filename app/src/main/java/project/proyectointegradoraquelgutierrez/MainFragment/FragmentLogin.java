@@ -5,15 +5,20 @@ package project.proyectointegradoraquelgutierrez.MainFragment;
  */
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import project.proyectointegradoraquelgutierrez.R;
 
+/**
+ * Clase que hereda de Fragment, se usará en MainActivity y mostrará un Login(Para acceder).
+ */
 public class FragmentLogin extends android.support.v4.app.Fragment {
 
+    /**
+     * Instancia un nuevo FragmentLogin
+     */
     public FragmentLogin() {}
 
     @Override

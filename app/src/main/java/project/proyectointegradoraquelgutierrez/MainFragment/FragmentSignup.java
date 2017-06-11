@@ -5,17 +5,21 @@ package project.proyectointegradoraquelgutierrez.MainFragment;
  */
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import project.proyectointegradoraquelgutierrez.R;
 
-public class FragmentSingup extends android.support.v4.app.Fragment {
+/**
+ * Clase que hereda Fragment, se usará en MainActivity y mostrará un Sign Up(Para registrarse).
+ */
+public class FragmentSignup extends android.support.v4.app.Fragment {
 
-    public FragmentSingup() {
-        // Required empty public constructor
+    /**
+     * Instancia un nuevo FragmentSignUp.
+     */
+    public FragmentSignup() {
     }
 
     @Override
@@ -26,7 +30,7 @@ public class FragmentSingup extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Infla el layout del fragmento
         return inflater.inflate(R.layout.fragment_singup, container, false);
     }
 

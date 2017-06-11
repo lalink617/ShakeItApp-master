@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Clase que guarda todos los movimientos recogidos del acelerómetro del dispositov durante 10 segundos.
+ */
 public class ShakeActivity extends AppCompatActivity implements SensorEventListener{
     private long last_update = 0;
     private long startTime;
@@ -30,6 +33,9 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
     private static final short startR=53, startG=61, startB=84, endR=221, endG=98, endB=92;
     private long lastColorChangeTime = 0;
     private int maxSinceLastChange = 0;
+    /**
+     * La cuenta atrás.
+     */
     Timer timer = new Timer();
 
     private static int weightedAverage(double t) {
@@ -147,6 +153,12 @@ public class ShakeActivity extends AppCompatActivity implements SensorEventListe
 
     }
 
+    /**
+     * Acción al pulsar el Botón de Cancel (Cancelar).
+     * Cierra la activity actual cancelando todos sus procesos y abre ScoreActivity.
+     *
+     * @param view la vista
+     */
     public void btCancelOnclick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         builder.setMessage(R.string.exit_confirm_body);

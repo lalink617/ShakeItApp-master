@@ -10,11 +10,15 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Clase para hacer peticiones HTTP en segundo plano
+ */
 public abstract class CallAPI extends AsyncTask<String, String, String> {
 
-    public CallAPI() {
-        //set context variables if required
-    }
+    /**
+     * Instancia un nuevo CallAPI
+     */
+    public CallAPI() {}
 
     @Override
     protected void onPreExecute() {
@@ -24,7 +28,7 @@ public abstract class CallAPI extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String urlString = params[0]; // URL to call
+        String urlString = params[0];
         String resultToDisplay = "";
         InputStream in;
         try {
@@ -38,7 +42,7 @@ public abstract class CallAPI extends AsyncTask<String, String, String> {
 
         try {
             resultToDisplay = IOUtils.toString(in, "UTF-8");
-            //to [convert][1] byte stream to a string
+            //para [convertir][1] byte stream a string
         } catch (IOException e) {
             e.printStackTrace();
         }

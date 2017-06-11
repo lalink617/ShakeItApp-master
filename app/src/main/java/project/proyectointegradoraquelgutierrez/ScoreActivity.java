@@ -39,14 +39,26 @@ import project.proyectointegradoraquelgutierrez.Score.Score;
 import project.proyectointegradoraquelgutierrez.Score.ScoreAdapter;
 
 /**
- *
+ * Clase que muestra una gráfica y listas de las puntuaciones de los usuarios.
  */
 public class ScoreActivity extends AppCompatActivity {
+    /**
+     * La gráfica.
+     */
     LineChart chart;
     LineDataSet dataSet;
     Toolbar toolbar;
-    ArrayList<Score> lastScores = new ArrayList<>();
+    /**
+     * Guarda las mejores puntuaciones del día.
+     */
+    ArrayList<Score> bestOfDay = new ArrayList<>();
+    /**
+     * Guarda las mejores puntuaciones de la historia.
+     */
     ArrayList<Score> highestScores = new ArrayList<>();
+    /**
+     * Guarda la puntuación de la última partida.
+     */
     ArrayList<Integer> myLastGame = new ArrayList<>();
     JSONObject object;
     JSONArray json_array;
@@ -128,11 +140,11 @@ public class ScoreActivity extends AppCompatActivity {
                                 json_array = object.getJSONArray("last_scores");
 
                                 for (int i = 0; i < json_array.length(); i++) {
-                                    lastScores.add(new Score(json_array.getJSONObject(i)));
+                                    bestOfDay.add(new Score(json_array.getJSONObject(i)));
                                 }
 
-                                if (!lastScores.isEmpty()) {
-                                    ScoreAdapter adapter = new ScoreAdapter(lastScores);
+                                if (!bestOfDay.isEmpty()) {
+                                    ScoreAdapter adapter = new ScoreAdapter(bestOfDay);
                                     listView.setAdapter(adapter);
 
                                 } else {
@@ -163,6 +175,12 @@ public class ScoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Acción al pulsar el Botón de Play (Jugar).
+     * Abre la activity para jugar
+     *
+     * @param view la vista
+     */
     public void btPlayOnClick(View view) {
         if (checkConnection()) {
             startActivity(new Intent(ScoreActivity.this, ShakeActivity.class));
@@ -188,6 +206,12 @@ public class ScoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Acción al pulsar el Botón de Historia.
+     * Muestra las mejores puntuaciones de la historia.
+     *
+     * @param view la vista
+     */
     public void btHistoryOnClick(View view) {
         final Dialog dialog = new Dialog(ScoreActivity.this);
         dialog.setContentView(R.layout.list_view_history);
@@ -220,6 +244,12 @@ public class ScoreActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Acción al pulsar el Botón de cerrar en el toolbar.
+     * Cierra la sesión del usuario.
+     *
+     * @param view la vista
+     */
     public void btBackOnClick(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         builder.setMessage(R.string.exit_confirm_body);
@@ -240,6 +270,11 @@ public class ScoreActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Comprueba si hay conexión a Internet.
+     *
+     * @return true si hay Internet o false si no hay
+     */
     public boolean checkConnection() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService (Context.CONNECTIVITY_SERVICE);
@@ -284,10 +319,22 @@ public class ScoreActivity extends AppCompatActivity {
         chart.invalidate();
     }
 
+    /**
+     * Acción al pulsar el Botón de next (siguiente).
+     * Cambia la gráfica de última partida a últimas 10 partidas y viceversa.
+     *
+     * @param view la vista
+     */
     public void btNextOnClick(View view) {
         changeChartValues();
     }
 
+    /**
+     * Dibuja una gráfica.
+     *
+     * @param object objeto JSON
+     * @param lastGame true si se ha jugado una partida anteriormente o false si no.
+     */
     private void drawChart(JSONObject object, boolean lastGame) {
         try {
 
